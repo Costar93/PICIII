@@ -1,0 +1,11 @@
+<html>
+<head><title>This is the title</title></head>
+ <body>
+   <title>Hello from Flask</title>
+   {% if user_name and user_surname%}
+   <h1>Hello {{ user_name }} {{user_surname}}!</h1>
+   {% else %}
+   <h1>Hello World!</h1>
+   {% endif %}	
+ </body>
+</html>

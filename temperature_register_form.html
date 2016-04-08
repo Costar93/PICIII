@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <title>Add temperature</title>
+  </head>
+  <body>
+    <h2>Add temperature...</h2>
+    <form action="/temp_register" id="zoneform" method="post">
+      
+      <select name="area" form="zoneform">
+      {% for zone in zones%}
+      <option value="{{zone}}">{{zone}}</option>
+      {% endfor %}
+    </select>
+      <p>Temperature: <input type="text" name="temp"></p>
+      <input type="submit" value="Submit">
+    </form>
+  </body>
+</html>

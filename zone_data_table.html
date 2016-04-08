@@ -1,0 +1,58 @@
+<html>
+  <head>
+    <title>Historical Data</title>
+  </head>
+  <style>
+  
+table {
+    width:100%;
+}
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+    text-align: centre;
+}
+table#t01 tr:nth-child(even) {
+    background-color: #ede778;
+}
+table#t01 tr:nth-child(odd) {
+   background-color:#fac09c;
+}
+table#t01 th	{
+    background-color: #41a8ba;
+    color: black;
+}
+</style>
+<body>
+  <h1 style="color:blue;">Data Zone<hr></h1>
+  <table id="t01">
+      <tr>
+	<th>Date</th>
+	<th>Time</th>
+	<th>Zone</th>
+	<th>Temperature</th>
+      </tr>
+	{% for row in zone_data %}
+          <tr>
+	  {% for cell in row %}
+	    <td> {{cell}} </td>
+	  {% endfor %}  
+	  </tr>  
+	{% endfor %}    
+    </table>
+    <br>
+    <form action="zone_data" id="zoneform" method="post">
+      <select name="area" form="zoneform">
+      {% for zone in zones%}
+      <option value="{{zone}}">{{zone}}</option>
+      {% endfor %}
+    </select>  
+
+      <input type="submit" name="Select Zone">
+    </form>
+
+  </body>
+</html>
