@@ -1,4 +1,4 @@
-from __future__ import print_function 
+from __future__ import print_function
 import sys
 import sqlite3
 from flask import render_template
@@ -11,9 +11,9 @@ def save_data(username,fullname,email,password):
     conn = sqlite3.connect('/home/pi/Desktop/db/users.db')
     try:
         conn.execute("insert into users (username,fullname,email,password) values (?, ?, ?, ?)",
-                 (username, 
-                  fullname, 
-                  email, 
+                 (username,
+                  fullname,
+                  email,
                   password))
         conn.commit()
         conn.close()
@@ -62,20 +62,6 @@ def get_data():
 def hello():
     return render_template('landing_page.html')
 
-#@app.route('/temp_register', methods=['GET', 'POST'])
-#def temp_register():
-#    zones = get_zones2()
-#    if request.method == 'GET':    
-#	zone_data = []
-#	return render_template('temperature_register_form.html',zone_data=zone_data, zones=zones)
-#    elif request.method == 'POST':
-#        zone = request.form.get('area')
-#        temp = request.form.get('temp')
-#        print (zone, file=sys.stderr)
-#	save_data(zone,temp)
-#        zone_data = get_zone_data2(zone)
-#    return render_template('temperature_register_form.html',zone_data=zone_data, zones=zones)
-   
 @app.route('/show_users', methods=['GET', 'POST'])
 def hist_data():
     historical_data = get_data()
