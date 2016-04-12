@@ -7,6 +7,8 @@ from datetime import datetime, date
 
 app = Flask(__name__)
 
+#Functions
+
 def save_data(username,fullname,email,password):
     conn = sqlite3.connect('/home/pi/Desktop/db/users.db')
     try:
@@ -21,6 +23,39 @@ def save_data(username,fullname,email,password):
     except:
         return False
 
+def user_data(username,password):
+    conn = sqlite3.connect('/home/pi/Desktop/db/users.db')
+    cursor = conn.execute("SELECT username from users")
+    data = [row for row in cursor]
+    i = 0
+    for user in data:
+        if user[0] == username:
+            i = 1
+    print(1, file=sys.stderr)
+    if i == 1:
+        if password_data(username,password):
+            return True
+        else:
+            return False
+    else:
+        return False
+
+def password_data(username2,password2):
+    conn = sqlite3.connect('/home/pi/Desktop/db/users.db')
+    print(username2, file=sys.stderr)
+    cursor = conn.execute("SELECT password FROM users WHERE username='str(username2)'")
+    #No reconeix username2 com la paraula que conte, per tant no guarda contrasenya
+    data = [row for row in cursor]
+    print(data, file=sys.stderr)
+    i = 0
+    for password in data:
+        print(password[0], file=sys.stderr)
+        if password[0] == password2:
+            i = 1
+    if i == 1:
+        return True
+    else:
+        return False
 
 def get_data():
     conn = sqlite3.connect('/home/pi/Desktop/db/users.db')
@@ -29,34 +64,7 @@ def get_data():
     conn.close()
     return data
 
-#def get_zone_data(zone):
-#    conn = sqlite3.connect('/home/pi/Desktop/db/mydatabase.db')
-#    cursor = conn.execute("SELECT tdate,ttime,zone,temperature from temps WHERE zone = ?",(zone,))
-#    data = [row for row in cursor]
-#    conn.close()
-#    return data
-
-#def get_zone_data2(zone):
-#    conn = sqlite3.connect('/home/pi/Desktop/db/mydatabase.db')
-#    cursor = conn.execute("SELECT zone from areas WHERE zone = ?",(zone,))
-#    data = [row for row in cursor]
-#    conn.close()
-#    return data
-
-
-#def get_zones():
-#    conn = sqlite3.connect('/home/pi/Desktop/db/mydatabase.db')
-#    cursor = conn.execute("select distinct zone from temps;")
-#    data = [row[0] for row in cursor]
-#    conn.close()
-#    return data
-
-#def get_zones2():
-#    conn = sqlite3.connect('/home/pi/Desktop/db/mydatabase.db')
-#    cursor = conn.execute("select distinct zone from areas;")
-#    data = [row[0] for row in cursor]
-#    conn.close()
-#    return data
+#Routes
 
 @app.route('/')
 def hello():
@@ -66,17 +74,6 @@ def hello():
 def hist_data():
     historical_data = get_data()
     return render_template('show_users_table.html',historical_data=historical_data)
-
-#@app.route('/zone_data', methods=['GET', 'POST'])
-#def zone_data():
-#    zones = get_zones()
-#    if request.method == 'GET':
-#        zone_data = []
-#    elif request.method == 'POST':
-#        zone = request.form.get('area')
-#        print(zone, file=sys.stderr)
-#        zone_data = get_zone_data(zone)
-#    return render_template('zone_data_table.html',zone_data=zone_data, zones=zones)
 
 @app.route('/insert_user', methods=['GET', 'POST'])
 def user_register():
@@ -90,8 +87,19 @@ def user_register():
         if save_data(username,fullname,email,password):
             return redirect(url_for('hello'))
         else:
-            return "Error Login"
+            return "Register Error"
 
+@app.route('/login', methods=['GET', 'POST'])
+def user_login():
+    if request.method == 'GET':
+            return render_template('login_user.html')
+    elif request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        if user_data(username,password):
+            return redirect(url_for('hello'))
+        else:
+            return "Error Login"
 
 if __name__ == '__main__':
     app.debug = True
