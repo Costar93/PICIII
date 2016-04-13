@@ -25,33 +25,13 @@ def save_data(username,fullname,email,password):
 
 def user_data(username,password):
     conn = sqlite3.connect('/home/pi/Desktop/db/users.db')
-    cursor = conn.execute("SELECT username from users")
+    cursor = conn.execute("SELECT username, password from users")
     data = [row for row in cursor]
     i = 0
     for user in data:
         if user[0] == username:
-            i = 1
-    print(1, file=sys.stderr)
-    if i == 1:
-        if password_data(username,password):
-            return True
-        else:
-            return False
-    else:
-        return False
-
-def password_data(username2,password2):
-    conn = sqlite3.connect('/home/pi/Desktop/db/users.db')
-    print(username2, file=sys.stderr)
-    cursor = conn.execute("SELECT password FROM users WHERE username='str(username2)'")
-    #No reconeix username2 com la paraula que conte, per tant no guarda contrasenya
-    data = [row for row in cursor]
-    print(data, file=sys.stderr)
-    i = 0
-    for password in data:
-        print(password[0], file=sys.stderr)
-        if password[0] == password2:
-            i = 1
+            if user[1] == password:
+                i = 1
     if i == 1:
         return True
     else:
@@ -85,7 +65,7 @@ def user_register():
         email = request.form.get('email')
         password = request.form.get('password')
         if save_data(username,fullname,email,password):
-            return redirect(url_for('hello'))
+            return render_template('register_succesfully.html',username=username,fullname=fullname)
         else:
             return "Register Error"
 
@@ -97,7 +77,7 @@ def user_login():
         username = request.form.get('username')
         password = request.form.get('password')
         if user_data(username,password):
-            return redirect(url_for('hello'))
+            return render_template('login_succesfully.html',username=username)
         else:
             return "Error Login"
 
