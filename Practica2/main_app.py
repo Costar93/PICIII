@@ -31,13 +31,10 @@ def user_data(username,password):
     conn = sqlite3.connect('/home/joe199/Documentos/github/PICIII/Practica2/users.db')
     cursor = conn.execute("SELECT username, password from users")
     data = [row for row in cursor]
-    i = 0
     for user in data:
         if user[0] == username:
             if user[1] == password:
-                i = 1
-    if i == 1:
-        return True
+                return True
     else:
         return False
 
