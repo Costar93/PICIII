@@ -13,17 +13,16 @@ def save_data(username,fullname,email,password):
     #change the conn line to open it in the all devices
     #conn = sqlite3.connect('/home/pi/Desktop/db/users.db')
     conn = sqlite3.connect('users.db')
-
+    #if user_exists()
     #Comparing that the user doesnt exist
-    cursor = conn.execute("SELECT username, password from users where username=:Id",
-    {"Id": username})
+    cursor = conn.execute("SELECT username from users")
     data = [row for row in cursor]
     for user in data:
-        if user[1] == password:
-            return True
+        if user[0] == username:
+            conn.close()
+            return False
     else:
-        conn.close()
-        return False
+
 
     #Adding user
     try:
@@ -46,7 +45,6 @@ def user_data(username,password):
     cursor = conn.execute("SELECT username, password from users where username=:Id",
     {"Id": username})
     data = [row for row in cursor]
-    print (data)
     for user in data:
         if user[1] == password:
             conn.close()
