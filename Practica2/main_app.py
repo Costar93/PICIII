@@ -29,12 +29,12 @@ def user_data(username,password):
     #change the conn line to open it in the all devices
     #conn = sqlite3.connect('/home/pi/Desktop/db/users.db')
     conn = sqlite3.connect('users.db')
-    cursor = conn.execute("SELECT username, password from users where username = '%s'" % username)
+    cursor = conn.execute("SELECT username, password from users where username=:Id",
+    {"Id": username})
     data = [row for row in cursor]
     for user in data:
-        if user[0] == username:
-            if user[1] == password:
-                return True
+        if user[1] == password:
+            return True
     else:
         return False
 
