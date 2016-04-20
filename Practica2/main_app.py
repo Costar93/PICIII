@@ -61,7 +61,7 @@ def hist_data():
 @app.route('/insert_user', methods=['GET', 'POST'])
 def user_register():
     if request.method == 'GET':
-            return render_template('insert_user.html')
+        return render_template('insert_user.html')
     elif request.method == 'POST':
         username = request.form.get('username')
         fullname = request.form.get('fullname')
