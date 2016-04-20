@@ -10,7 +10,7 @@ app = Flask(__name__)
 #Functions
 
 def save_data(username,fullname,email,password):
-    conn = sqlite3.connect('/home/pi/Desktop/db/users.db')
+    conn = sqlite3.connect('users.db')
     try:
         conn.execute("insert into users (username,fullname,email,password) values (?, ?, ?, ?)",
                  (username,
@@ -24,8 +24,9 @@ def save_data(username,fullname,email,password):
         return False
 
 def user_data(username,password):
-    conn = sqlite3.connect('/home/pi/Desktop/db/users.db')
-    cursor = conn.execute("SELECT username, password from users")
+    conn = sqlite3.connect('users.db')
+    cursor = conn.execute("SELECT username, password from users where username = '%s'" % username)
+    print (cursor)
     data = [row for row in cursor]
     for user in data:
         if user[0] == username:
@@ -35,7 +36,7 @@ def user_data(username,password):
         return False
 
 def get_data():
-    conn = sqlite3.connect('/home/pi/Desktop/db/users.db')
+    conn = sqlite3.connect('users.db')
     cursor = conn.execute("SELECT username,fullname,email from users")
     data = [row for row in cursor]
     conn.close()
