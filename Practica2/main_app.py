@@ -10,6 +10,8 @@ app = Flask(__name__)
 #Functions
 
 def save_data(username,fullname,email,password):
+    #change the conn line to open it in the all devices
+    #conn = sqlite3.connect('/home/pi/Desktop/db/users.db')
     conn = sqlite3.connect('users.db')
     try:
         conn.execute("insert into users (username,fullname,email,password) values (?, ?, ?, ?)",
@@ -24,9 +26,10 @@ def save_data(username,fullname,email,password):
         return False
 
 def user_data(username,password):
+    #change the conn line to open it in the all devices
+    #conn = sqlite3.connect('/home/pi/Desktop/db/users.db')
     conn = sqlite3.connect('users.db')
     cursor = conn.execute("SELECT username, password from users where username = '%s'" % username)
-    print (cursor)
     data = [row for row in cursor]
     for user in data:
         if user[0] == username:
@@ -36,6 +39,8 @@ def user_data(username,password):
         return False
 
 def get_data():
+    #change the conn line to open it in the all devices
+    #conn = sqlite3.connect('/home/pi/Desktop/db/users.db')
     conn = sqlite3.connect('users.db')
     cursor = conn.execute("SELECT username,fullname,email from users")
     data = [row for row in cursor]
@@ -62,8 +67,10 @@ def user_register():
         fullname = request.form.get('fullname')
         email = request.form.get('email')
         password = request.form.get('password')
-        if save_data(username,fullname,email,password):
-            return render_template('register_succesfully.html',username=username,fullname=fullname)
+        #print(username=="", fullname=="", email=="", password=="")
+        if username == "" and fullname == "" and email == "" and password == "":
+            if save_data(username,fullname,email,password):
+                return render_template('register_succesfully.html',username=username,fullname=fullname)
         else:
             return "Register Error"
 
