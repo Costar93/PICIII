@@ -10,7 +10,9 @@ app = Flask(__name__)
 #Functions
 
 def save_data(username,fullname,email,password):
-    conn = sqlite3.connect('/home/pi/Desktop/db/users.db')
+    #change the conn line to open it in the all devices
+    #conn = sqlite3.connect('/home/pi/Desktop/db/users.db')
+    conn = sqlite3.connect('/home/joe199/Documentos/github/PICIII/Practica2/users.db')
     try:
         conn.execute("insert into users (username,fullname,email,password) values (?, ?, ?, ?)",
                  (username,
@@ -24,7 +26,9 @@ def save_data(username,fullname,email,password):
         return False
 
 def user_data(username,password):
-    conn = sqlite3.connect('/home/pi/Desktop/db/users.db')
+    #change the conn line to open it in the all devices
+    #conn = sqlite3.connect('/home/pi/Desktop/db/users.db')
+    conn = sqlite3.connect('/home/joe199/Documentos/github/PICIII/Practica2/users.db')
     cursor = conn.execute("SELECT username, password from users")
     data = [row for row in cursor]
     i = 0
@@ -38,7 +42,9 @@ def user_data(username,password):
         return False
 
 def get_data():
-    conn = sqlite3.connect('/home/pi/Desktop/db/users.db')
+    #change the conn line to open it in the all devices
+    #conn = sqlite3.connect('/home/pi/Desktop/db/users.db')
+    conn = sqlite3.connect('/home/joe199/Documentos/github/PICIII/Practica2/users.db')
     cursor = conn.execute("SELECT username,fullname,email from users")
     data = [row for row in cursor]
     conn.close()
@@ -64,8 +70,9 @@ def user_register():
         fullname = request.form.get('fullname')
         email = request.form.get('email')
         password = request.form.get('password')
-        if save_data(username,fullname,email,password):
-            return render_template('register_succesfully.html',username=username,fullname=fullname)
+        if username is not None and fullname is not None and email is not None and password is not None:
+            if save_data(username,fullname,email,password):
+                return render_template('register_succesfully.html',username=username,fullname=fullname)
         else:
             return "Register Error"
 
