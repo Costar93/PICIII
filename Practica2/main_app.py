@@ -12,7 +12,7 @@ app = Flask(__name__)
 def save_data(username,fullname,email,password):
     #change the conn line to open it in the all devices
     #conn = sqlite3.connect('/home/pi/Desktop/db/users.db')
-    conn = sqlite3.connect('/home/joe199/Documentos/github/PICIII/Practica2/users.db')
+    conn = sqlite3.connect('users.db')
     try:
         conn.execute("insert into users (username,fullname,email,password) values (?, ?, ?, ?)",
                  (username,
@@ -28,7 +28,7 @@ def save_data(username,fullname,email,password):
 def user_data(username,password):
     #change the conn line to open it in the all devices
     #conn = sqlite3.connect('/home/pi/Desktop/db/users.db')
-    conn = sqlite3.connect('/home/joe199/Documentos/github/PICIII/Practica2/users.db')
+    conn = sqlite3.connect('users.db')
     cursor = conn.execute("SELECT username, password from users")
     data = [row for row in cursor]
     for user in data:
@@ -41,7 +41,7 @@ def user_data(username,password):
 def get_data():
     #change the conn line to open it in the all devices
     #conn = sqlite3.connect('/home/pi/Desktop/db/users.db')
-    conn = sqlite3.connect('/home/joe199/Documentos/github/PICIII/Practica2/users.db')
+    conn = sqlite3.connect('users.db')
     cursor = conn.execute("SELECT username,fullname,email from users")
     data = [row for row in cursor]
     conn.close()
@@ -67,7 +67,8 @@ def user_register():
         fullname = request.form.get('fullname')
         email = request.form.get('email')
         password = request.form.get('password')
-        if username is not None and fullname is not None and email is not None and password is not None:
+        #print(username=="", fullname=="", email=="", password=="")
+        if username == "" and fullname == "" and email == "" and password == "":
             if save_data(username,fullname,email,password):
                 return render_template('register_succesfully.html',username=username,fullname=fullname)
         else:
