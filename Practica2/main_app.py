@@ -9,6 +9,7 @@ app = Flask(__name__)
 
 #Functions
 
+
 def user_exists(username):
     conn = sqlite3.connect('users.db')
     cursor = conn.execute("SELECT username from users where username=:Id",
