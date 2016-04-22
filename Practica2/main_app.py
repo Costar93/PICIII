@@ -25,18 +25,18 @@ def save_data(username,fullname,email,password):
 
 
     #Adding user
-    try:
-        conn.execute("insert into users (username,fullname,email,password) values (?, ?, ?, ?)",
-                 (username,
-                  fullname,
-                  email,
-                  password))
-        conn.commit()
-        conn.close()
-        return True
-    except:
-        conn.close()
-        return False
+        try:
+            conn.execute("insert into users (username,fullname,email,password) values (?, ?, ?, ?)",
+                     (username,
+                      fullname,
+                      email,
+                      password))
+            conn.commit()
+            conn.close()
+            return True
+        except:
+            conn.close()
+            return False
 
 def user_data(username,password):
     #change the conn line to open it in the all devices
