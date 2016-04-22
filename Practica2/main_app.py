@@ -15,8 +15,8 @@ def user_exists(username):
     {"Id": username})
     data = [row for row in cursor]
     if len(data)>0:
-        return False
-    return True
+        return True
+    return False
 
 def save_data(username,fullname,email,password):
     #Check if user_exists() for register
