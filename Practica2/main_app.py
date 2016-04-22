@@ -43,14 +43,18 @@ def user_data(username,password):
     conn = sqlite3.connect('users.db')
     cursor = conn.execute("SELECT username, password from users where username=:Id",
     {"Id": username})
-    data = [row for row in cursor]
-    for user in data:
-        if user[1] == password:
-            conn.close()
-            return True
-    else:
-        conn.close()
+    #data = [row for row in cursor]
+    data = cursor.fetchone()
+    if data is None:
         return False
+    else:
+        get_user = data[0]
+        get_password = data[1]
+
+    if password == get_password:
+        return True
+    return False
+
 
 def get_data():
     #Load data from database
