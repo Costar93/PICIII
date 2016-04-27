@@ -1,0 +1,4 @@
+BEGIN;
+CREATE TABLE users (username TEXT, fullname TEXT, email TEXT, password TEXT);
+INSERT INTO users values("Costar93","Jordi Costa","jcr@udl.cat","pic3");
+COMMIT;
