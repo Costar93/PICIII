@@ -13,20 +13,15 @@ app = Flask(__name__)
 #Functions
 
 def db_session(self):
-        '''Generate a database session used to do queries on the db'''
-        print ("A")
-        # Create engine and bind base to it
-        path_to_db = "mydatabase.db"
-        print ("B")
-        engine = create_engine('sqlite:///' + path_to_db)
-        print ("C")
-        Base.metadata.bind = engine
-        print ("D")
-        # Make a new session and return it
-        DBSession = sessionmaker(bind = engine)
-        print ("E")
-        session = DBSession()
-        return session
+    '''Generate a database session used to do queries on the db'''
+    # Create engine and bind base to it
+    path_to_db = "mydatabase.db"
+    engine = create_engine('sqlite:///' + path_to_db)
+    Base.metadata.bind = engine
+    # Make a new session and return it
+    DBSession = sessionmaker(bind = engine)
+    session = DBSession()
+    return session
 
 def user_exists(username):
     conn = sqlite3.connect('users.db')
@@ -79,21 +74,16 @@ def get_data():
     engine = create_engine('sqlite:///' + path_to_db)
     Base.metadata.bind = engine
     # Make a new session
-    DBSession = sessionmaker(bind = engine)
+    DBSession = sessionmaker()
+    DBSession.bind = engine
     session = DBSession()
     #searching users
     session.query(User).all()
-    user = session.query(User).first()
-    print (user.fullname)
-
-
-
-    #Load data from database
-    conn = sqlite3.connect('users.db')
-    cursor = conn.execute("SELECT username,fullname,email from users")
-    data = [row for row in cursor]
-    conn.close()
-    return data
+    user = session.query(User).all()
+    list_of_lists=[]
+    for row in user:
+        list_of_lists.append((row.username,row.fullname,row.email))
+    return list_of_lists
 
 #Routes
 
