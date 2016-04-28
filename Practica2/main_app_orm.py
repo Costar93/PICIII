@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 #Functions
 
-def db_session(self):
+def db_session():
     '''Generate a database session used to do queries on the db'''
     # Create engine and bind base to it
     path_to_db = "mydatabase.db"
@@ -24,13 +24,15 @@ def db_session(self):
     return session
 
 def user_exists(username):
-    conn = sqlite3.connect('users.db')
-    cursor = conn.execute("SELECT username from users where username=:Id",
-    {"Id": username})
-    data = [row for row in cursor]
-    if len(data)>0:
+    #load session
+    session = db_session()
+    session.query(User).all()
+    try:
+        user = session.query(User).filter_by(username=username).one()
+        print (user)
         return True
-    return False
+    except:
+        return False
 
 def save_data(username,fullname,email,password):
     #Check if user_exists() for register
@@ -39,14 +41,10 @@ def save_data(username,fullname,email,password):
     else:
     #Adding user
         try:
-            # Create engine and bind base to it
-            path_to_db = "mydatabase.db"
-            engine = create_engine('sqlite:///' + path_to_db)
-            Base.metadata.bind = engine
-            # Make a new session
-            DBSession = sessionmaker(bind = engine)
-            session = DBSession()
+            #load session
+            session = db_session()
             #saving user
+            print ("session opened correctly")
             new_user = User(username=username, fullname=fullname, email=email, password=password)
             session.add(new_user)
             session.commit()
@@ -69,14 +67,8 @@ def user_data(username,password):
 
 
 def get_data():
-    # Create engine and bind base to it
-    path_to_db = "mydatabase.db"
-    engine = create_engine('sqlite:///' + path_to_db)
-    Base.metadata.bind = engine
-    # Make a new session
-    DBSession = sessionmaker()
-    DBSession.bind = engine
-    session = DBSession()
+    #load session
+    session = db_session()
     #searching users
     session.query(User).all()
     user = session.query(User).all()
