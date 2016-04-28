@@ -54,16 +54,20 @@ def save_data(username,fullname,email,password):
 
 def user_data(username,password):
     #Checking login data
-    conn = sqlite3.connect('users.db')
-    cursor = conn.execute("SELECT username, password from users where username=:Id",
-    {"Id": username})
-    data = cursor.fetchone()
-    if data is None:
+    session = db_session()
+    session.query(User).all()
+    try:
+        user = session.query(User).filter_by(username=username).all()
+        print (user)
+        pass1 = (user.password)
+        #password1 = user[0]
+        print (pass1)
+        if password == pass1:
+            return True
+    except:
         return False
-    elif password == data[1]:
-        return True
-    else:
-        return False
+
+
 
 
 def get_data():
