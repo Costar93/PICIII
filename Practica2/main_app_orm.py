@@ -26,10 +26,10 @@ def db_session():
 def user_exists(username):
     #load session
     session = db_session()
+    #Checking if user exists
     session.query(User).all()
     try:
         user = session.query(User).filter_by(username=username).one()
-        print (user)
         return True
     except:
         return False
@@ -44,7 +44,6 @@ def save_data(username,fullname,email,password):
             #load session
             session = db_session()
             #saving user
-            print ("session opened correctly")
             new_user = User(username=username, fullname=fullname, email=email, password=password)
             session.add(new_user)
             session.commit()
