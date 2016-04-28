@@ -53,22 +53,19 @@ def save_data(username,fullname,email,password):
             return False
 
 def user_data(username,password):
-    #Checking login data
+    #load session
     session = db_session()
+    #Checking login data
     session.query(User).all()
     try:
         user = session.query(User).filter_by(username=username).all()
-        print (user)
-        pass1 = (user.password)
-        #password1 = user[0]
-        print (pass1)
-        if password == pass1:
+        pass1 = []
+        for row in user:
+            pass1.append(row.password)
+        if password == pass1[0]:
             return True
     except:
         return False
-
-
-
 
 def get_data():
     #load session
