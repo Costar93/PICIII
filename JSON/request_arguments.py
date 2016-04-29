@@ -12,7 +12,6 @@ data = {
     "body": body
         }
 
-
 def post_data(data):
     s = requests.post("http://jsonplaceholder.typicode.com/posts/", data=data)
     if s.status_code != 201:

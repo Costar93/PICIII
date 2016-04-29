@@ -10,5 +10,4 @@ def get_data():
         for x in range(0, 5):
             print r[x],"\n"
 
-
 get_data()
