@@ -1,6 +1,11 @@
 import requests
+import sys
 
-def get_data():
+a=sys.argv[1]
+print a
+exit(0)
+
+def post_data():
     for a in ["posts", "comments", "albums", "photos", "todos", "users"]:
         s = []
         s = requests.get("http://jsonplaceholder.typicode.com/%s/" % (a))
@@ -11,4 +16,4 @@ def get_data():
             print r[x],"\n"
 
 
-get_data()
+post_data()
