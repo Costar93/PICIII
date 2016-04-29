@@ -1,19 +1,23 @@
 import requests
 import sys
 
-a=sys.argv[1]
-print a
-exit(0)
-
-def post_data():
-    for a in ["posts", "comments", "albums", "photos", "todos", "users"]:
-        s = []
-        s = requests.get("http://jsonplaceholder.typicode.com/%s/" % (a))
-        if s.status_code != 200:
-            raise Exception('POST /posts/ %s' % (r.status_code))
-        r = s.json()
-        for x in range(0, 5):
-            print r[x],"\n"
+user_id=sys.argv[1]
+id1=sys.argv[2]
+title=sys.argv[3]
+body=sys.argv[4]
+data = {
+    "userId": user_id,
+    "id": id1,
+    "title": title,
+    "body": body
+        }
 
 
-post_data()
+def post_data(data):
+    s = requests.post("http://jsonplaceholder.typicode.com/posts/", data=data)
+    if s.status_code != 201:
+        raise Exception('POST /posts/ %s' % (s.status_code))
+    print "created task .ID: %s" % (s.json()["id"])
+
+
+post_data(data)
