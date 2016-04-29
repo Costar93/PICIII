@@ -18,5 +18,4 @@ def post_data(data):
         raise Exception('POST /posts/ %s' % (s.status_code))
     print "created task .ID: %s" % (s.json()["id"])
 
-
 post_data(data)
