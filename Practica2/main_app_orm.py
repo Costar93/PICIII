@@ -13,7 +13,6 @@ app = Flask(__name__)
 #Functions
 
 def db_session():
-    '''Generate a database session used to do queries on the db'''
     # Create engine and bind base to it
     path_to_db = "mydatabase.db"
     engine = create_engine('sqlite:///' + path_to_db)
@@ -27,7 +26,6 @@ def user_exists(username):
     #load session
     session = db_session()
     #Checking if user exists
-    session.query(User).all()
     try:
         user = session.query(User).filter_by(username=username).one()
         return True
@@ -55,14 +53,9 @@ def user_data(username,password):
     #load session
     session = db_session()
     #Checking login data
-    session.query(User).all()
     try:
-        user = session.query(User).filter_by(username=username).all()
-        pass1 = []
-        for row in user:
-            pass1.append(row.password)
-        if password == pass1[0]:
-            return True
+        user = session.query(User).filter_by(username=username).one()
+        return password == user.password
     except:
         return False
 
@@ -70,7 +63,6 @@ def get_data():
     #load session
     session = db_session()
     #searching users
-    session.query(User).all()
     user = session.query(User).all()
     list_of_lists=[]
     for row in user:
