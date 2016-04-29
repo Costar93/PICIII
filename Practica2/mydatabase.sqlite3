@@ -1,3 +1,5 @@
+#serveix per les dos taules creades, la users.db i la mydatabase.db
+
 BEGIN;
 CREATE TABLE users (username TEXT, fullname TEXT, email TEXT, password TEXT);
 INSERT INTO users values("Costar93","Jordi Costa","jcr@udl.cat","pic3");
