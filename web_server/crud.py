@@ -1,6 +1,8 @@
 #!flask/bin/python
 from flask import Flask, jsonify, abort, make_response
 
+a = sys.argv[1]
+
 app = Flask(__name__)
 
 posts = [
@@ -34,18 +36,18 @@ def not_found(error):
 def bad_request(error):
     return make_response(jsonify({'error': 'Bad request'}), 400)
 
-@app.route('/posts', methods=['GET'])
+@app.route('/%s', methods=['GET'] % (a))
 def get_posts():
     return jsonify({'posts': posts})
 
-@app.route('/posts/<int:post_id>', methods=['GET'])
+@app.route('/%s/<int:post_id>', methods=['GET'] % (a))
 def get_task(post_id):
     post = [post for post in posts if post['id'] == post_id]
     if len(post) == 0:
         abort(404)
     return jsonify({'post': post[0]})
 
-@app.route('/posts', methods=['POST'])
+@app.route('/%s', methods=['POST'] % (a))
 def create_post():
     if not request.json or not 'title' in request.json or not 'userId' in request.json or not 'body' in request.json:
         abort(400)
@@ -58,7 +60,7 @@ def create_post():
     posts.append(post)
     return jsonify({'post': post}), 201
 
-@app.route('/posts/<int:post_id>', methods=['PUT'])
+@app.route('/%s/<int:post_id>', methods=['PUT'] % (a))
 def update_post(post_id):
     post = [post for post in posts if post['id'] == post_id]
     if len(post) == 0:
@@ -70,7 +72,7 @@ def update_post(post_id):
     return jsonify({'post': post[0]})
     </int:post_id>
 
-@app.route('/posts/<int:post_id>', methods=['DELETE'])
+@app.route('/%s/<int:post_id>', methods=['DELETE'] % (a))
 def delete_post(post_id):
     post = [post for post in posts if post['id'] == post_id]
     if len(post) == 0:
