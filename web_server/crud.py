@@ -1,8 +1,6 @@
 #!flask/bin/python
 from flask import Flask, jsonify, abort, make_response, request
-from estructures import posts, comments
-print posts
-print comments
+from estructures import posts, comments, albums, photos, todos, users
 
 
 app = Flask(__name__)
