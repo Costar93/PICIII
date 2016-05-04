@@ -1,8 +1,9 @@
 #!flask/bin/python
-from flask import Flask, jsonify, abort, make_response
-import estructures
+from flask import Flask, jsonify, abort, make_response, request
+from estructures import posts, comments
+print posts
+print comments
 
-a = sys.argv[1]
 
 app = Flask(__name__)
 
@@ -49,7 +50,6 @@ def update_post(post_id):
     post[0]['title'] = request.json.get('title', post[0]['title'])
     post[0]['body'] = request.json.get('body', post[0]['body'])
     return jsonify({'post': post[0]})
-    </int:post_id>
 
 @app.route('/posts/<int:post_id>', methods=['DELETE'] )
 def delete_post(post_id):
@@ -58,4 +58,7 @@ def delete_post(post_id):
         abort(404)
     posts.remove(post[0])
     return jsonify({'result': True})
-    </int:post_id>
+
+if __name__ == '__main__':
+    app.debug = True
+    app.run("0.0.0.0")
