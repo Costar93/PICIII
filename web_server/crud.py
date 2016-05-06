@@ -14,9 +14,37 @@ def not_found(error):
 def bad_request(error):
     return make_response(jsonify({'error': 'Bad request'}), 400)
 
+#GET
+
+
 @app.route('/posts', methods=['GET'])
 def get_posts():
     return jsonify({'posts': posts})
+
+@app.route('/comments', methods=['GET'])
+def get_comments():
+    return jsonify({'comments': comments})
+
+@app.route('/postsa', methods=['GET'])
+def get_posts():
+    return jsonify({'posts': posts})
+
+@app.route('/postas', methods=['GET'])
+def get_posts():
+    return jsonify({'posts': posts})
+
+@app.route('/poasts', methods=['GET'])
+def get_posts():
+    return jsonify({'posts': posts})
+
+@app.route('/possts', methods=['GET'])
+def get_posts():
+    return jsonify({'posts': posts})
+
+
+
+
+
 
 @app.route('/posts/<int:post_id>', methods=['GET'])
 def get_task(post_id):
