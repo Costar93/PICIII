@@ -16,7 +16,6 @@ def bad_request(error):
 
 #GET
 
-
 @app.route('/posts', methods=['GET'])
 def get_posts():
     return jsonify({'posts': posts})
@@ -25,26 +24,23 @@ def get_posts():
 def get_comments():
     return jsonify({'comments': comments})
 
-@app.route('/postsa', methods=['GET'])
-def get_posts():
-    return jsonify({'posts': posts})
+@app.route('/albums', methods=['GET'])
+def get_albums():
+    return jsonify({'albums': albums})
 
-@app.route('/postas', methods=['GET'])
-def get_posts():
-    return jsonify({'posts': posts})
+@app.route('/photos', methods=['GET'])
+def get_photos():
+    return jsonify({'photos': photos})
 
-@app.route('/poasts', methods=['GET'])
-def get_posts():
-    return jsonify({'posts': posts})
+@app.route('/todos', methods=['GET'])
+def get_todos():
+    return jsonify({'todos': todos})
 
-@app.route('/possts', methods=['GET'])
-def get_posts():
-    return jsonify({'posts': posts})
+@app.route('/users', methods=['GET'])
+def get_users():
+    return jsonify({'users': users})
 
-
-
-
-
+#GET ID
 
 @app.route('/posts/<int:post_id>', methods=['GET'])
 def get_task(post_id):
@@ -52,6 +48,44 @@ def get_task(post_id):
     if len(post) == 0:
         abort(404)
     return jsonify({'post': post[0]})
+
+@app.route('/comments/<int:comment_id>', methods=['GET'])
+def get_comment(comment_id):
+    comment = [comment for comment in comments if comment['id'] == comment_id]
+    if len(comment) == 0:
+        abort(404)
+    return jsonify({'comment': comment[0]})
+
+@app.route('/albums/<int:album_id>', methods=['GET'])
+def get_album(album_id):
+    album = [album for album in albums if album['id'] == album_id]
+    if len(album) == 0:
+        abort(404)
+    return jsonify({'album': album[0]})
+
+@app.route('/photos/<int:photo_id>', methods=['GET'])
+def get_photo(photo_id):
+    photo = [photo for photo in photos if photo['id'] == photo_id]
+    if len(photo) == 0:
+        abort(404)
+    return jsonify({'photo': photo[0]})
+
+@app.route('/todos/<int:todo_id>', methods=['GET'])
+def get_todo(todo_id):
+    todo = [todo for todo in todos if todo['id'] == todo_id]
+    if len(todo) == 0:
+        abort(404)
+    return jsonify({'todo': todo[0]})
+
+@app.route('/users/<int:user_id>', methods=['GET'])
+def get_user(user_id):
+    user = [user for user in users if user['id'] == user_id]
+    if len(user) == 0:
+        abort(404)
+    return jsonify({'user': user[0]})
+
+#POST
+
 
 @app.route('/posts', methods=['POST'])
 def create_post():
@@ -77,7 +111,7 @@ def update_post(post_id):
     post[0]['body'] = request.json.get('body', post[0]['body'])
     return jsonify({'post': post[0]})
 
-@app.route('/posts/<int:post_id>', methods=['DELETE'] )
+@app.route('/posts/<int:post_id>', methods=['DELETE'])
 def delete_post(post_id):
     post = [post for post in posts if post['id'] == post_id]
     if len(post) == 0:
