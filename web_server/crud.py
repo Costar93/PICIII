@@ -1,6 +1,9 @@
 #!flask/bin/python
 from flask import Flask, jsonify, abort, make_response, request
 from estructures import posts, comments, albums, photos, todos, users
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy_declarative import Posts, comments, albums, photos, todos, Base
 
 
 app = Flask(__name__)
