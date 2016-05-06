@@ -1,4 +1,5 @@
 #!flask/bin/python
+from __future__ import print_function
 from flask import Flask, jsonify, abort, make_response, request
 from estructures import posts, comments, albums, photos, todos, users
 from sqlalchemy import create_engine
@@ -6,8 +7,17 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy_declarative import Posts, comments, albums, photos, todos, Base
 
 
+
+
 app = Flask(__name__)
 
+def db_session():
+    path_to_db = "mydatabase.db"
+    engine = create_engine('sqlite:///' + path_to_db)
+    Base.metadata.create_all(engine)
+    DBSession = sessionmaker(bind = engine)
+    session = DBSession()
+    return session
 
 @app.errorhandler(404)
 def not_found(error):
@@ -21,6 +31,8 @@ def bad_request(error):
 
 @app.route('/posts', methods=['GET'])
 def get_posts():
+    session = db_session()
+    posts = session.query(Posts).all()
     return jsonify({'posts': posts})
 
 @app.route('/comments', methods=['GET'])
@@ -47,10 +59,15 @@ def get_users():
 
 @app.route('/posts/<int:post_id>', methods=['GET'])
 def get_task(post_id):
-    post = [post for post in posts if post['id'] == post_id]
-    if len(post) == 0:
+    session = db_session()
+    try:
+        post = session.query(Posts).filter_by(id=post_id).one()
+        #post = [post for post in posts if post['id'] == post_id]
+    #if len(post) == 0:
+    except:
         abort(404)
-    return jsonify({'post': post[0]})
+    return jsonify(id=post.id,userId=post.userId,title=post.title,body=post.body)
+    #return jsonify({'post': post[0]})
 
 @app.route('/comments/<int:comment_id>', methods=['GET'])
 def get_comment(comment_id):
@@ -93,13 +110,13 @@ def get_user(user_id):
 def create_post():
     if not request.json or not 'title' in request.json or not 'userId' in request.json or not 'body' in request.json:
         abort(400)
-    post = {
-        'id': posts[-1]['id'] + 1,
-        'userId': request.json['userId'],
-        'title': request.json['title'],
-        'body': request.json['body'],
-    }
-    posts.append(post)
+    session = db_session()
+    post=Posts(id = 123, userId = 2, title = "title", body = "body")
+    print(post)
+    session.add(post)
+    session.commit()
+    post = ""
+    #return jsonify(id=post.id,userId=post.userId,title=post.title,body=post.body)
     return jsonify({'post': post}), 201
 
 @app.route('/comments', methods=['POST'])
