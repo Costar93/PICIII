@@ -167,6 +167,52 @@ def update_post(post_id):
     post[0]['body'] = request.json.get('body', post[0]['body'])
     return jsonify({'post': post[0]})
 
+@app.route('/comments/<int:comment_id>', methods=['PUT'])
+def update_comment(comment_id):
+    comment = [comment for comment in comments if comment['id'] == comment_id]
+    if len(comment) == 0:
+        abort(404)
+    if not request.json:
+        abort(400)
+    comment[0]['name'] = request.json.get('name', comment[0]['name'])
+    comment[0]['email'] = request.json.get('email', comment[0]['email'])
+    comment[0]['body'] = request.json.get('body', comment[0]['body'])
+    return jsonify({'comment': comment[0]})
+
+@app.route('/albums/<int:album_id>', methods=['PUT'])
+def update_album(album_id):
+    album = [album for album in albums if album['id'] == album_id]
+    if len(album) == 0:
+        abort(404)
+    if not request.json:
+        abort(400)
+    album[0]['title'] = request.json.get('title', album[0]['title'])
+    return jsonify({'album': album[0]})
+
+@app.route('/photos/<int:photo_id>', methods=['PUT'])
+def update_photo(photo_id):
+    photo = [photo for photo in photos if photo['id'] == photo_id]
+    if len(photo) == 0:
+        abort(404)
+    if not request.json:
+        abort(400)
+    photo[0]['title'] = request.json.get('title', photo[0]['title'])
+    photo[0]['url'] = request.json.get('url', photo[0]['url'])
+    photo[0]['thumbnailUrl'] = request.json.get('thumbnailUrl', photo[0]['thumbnailUrl'])
+    return jsonify({'photo': photo[0]})
+
+@app.route('/todos/<int:todo_id>', methods=['PUT'])
+def update_todo(todo_id):
+    todo = [todo for todo in todos if todo['id'] == todo_id]
+    if len(todo) == 0:
+        abort(404)
+    if not request.json:
+        abort(400)
+    todo[0]['title'] = request.json.get('title', todo[0]['title'])
+    return jsonify({'todo': todo[0]})
+
+#Falta users que es molt llarg
+
 #DELETE
 
 @app.route('/posts/<int:post_id>', methods=['DELETE'])
