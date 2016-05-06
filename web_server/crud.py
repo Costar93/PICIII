@@ -177,6 +177,46 @@ def delete_post(post_id):
     posts.remove(post[0])
     return jsonify({'result': True})
 
+@app.route('/comments/<int:comment_id>', methods=['DELETE'])
+def delete_comment(comment_id):
+    comment = [comment for comment in comments if comment['id'] == comment_id]
+    if len(comment) == 0:
+        abort(404)
+    comments.remove(comment[0])
+    return jsonify({'result': True})
+
+@app.route('/albums/<int:album_id>', methods=['DELETE'])
+def delete_album(album_id):
+    album = [album for album in albums if album['id'] == album_id]
+    if len(album) == 0:
+        abort(404)
+    albums.remove(album[0])
+    return jsonify({'result': True})
+
+@app.route('/photos/<int:photo_id>', methods=['DELETE'])
+def delete_photo(photo_id):
+    photo = [photo for photo in photos if photo['id'] == photo_id]
+    if len(photo) == 0:
+        abort(404)
+    photos.remove(photo[0])
+    return jsonify({'result': True})
+
+@app.route('/todos/<int:todo_id>', methods=['DELETE'])
+def delete_todo(todo_id):
+    todo = [todo for todo in todos if todo['id'] == todo_id]
+    if len(todo) == 0:
+        abort(404)
+    todos.remove(todo[0])
+    return jsonify({'result': True})
+
+@app.route('/users/<int:user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    user = [user for user in users if user['id'] == user_id]
+    if len(user) == 0:
+        abort(404)
+    users.remove(user[0])
+    return jsonify({'result': True})
+
 if __name__ == '__main__':
     app.debug = True
     app.run("0.0.0.0")
