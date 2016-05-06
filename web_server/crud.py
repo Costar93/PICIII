@@ -86,7 +86,6 @@ def get_user(user_id):
 
 #POST
 
-
 @app.route('/posts', methods=['POST'])
 def create_post():
     if not request.json or not 'title' in request.json or not 'userId' in request.json or not 'body' in request.json:
@@ -100,6 +99,63 @@ def create_post():
     posts.append(post)
     return jsonify({'post': post}), 201
 
+@app.route('/comments', methods=['POST'])
+def create_comment():
+    if not request.json or not 'postId' in request.json or not 'name' in request.json or not 'email' in request.json or not 'body' in request.json:
+        abort(400)
+    comment = {
+        'id': comments[-1]['id'] + 1,
+        'postId': request.json['postId'],
+        'name': request.json['name'],
+        'email': request.json['email'],
+        'body': request.json['body'],
+    }
+    comments.append(comment)
+    return jsonify({'comment': comment}), 201
+
+@app.route('/albums', methods=['POST'])
+def create_album():
+    if not request.json or not 'userId' in request.json or not 'title' in request.json:
+        abort(400)
+    album = {
+        'id': albums[-1]['id'] + 1,
+        'userId': request.json['userId'],
+        'title': request.json['title'],
+    }
+    albums.append(album)
+    return jsonify({'album': album}), 201
+
+@app.route('/photos', methods=['POST'])
+def create_photo():
+    if not request.json or not 'albumId' in request.json or not 'title' in request.json or not 'url' in request.json or not 'thumbnailUrl' in request.json:
+        abort(400)
+    photo = {
+        'id': photos[-1]['id'] + 1,
+        'albumId': request.json['albumId'],
+        'title': request.json['title'],
+        'url': request.json['url'],
+        'thumbnailUrl': request.json['thumbnailUrl'],
+    }
+    photos.append(photo)
+    return jsonify({'photo': photo}), 201
+
+@app.route('/todos', methods=['POST'])
+def create_todo():
+    if not request.json or not 'userId' in request.json or not 'title' in request.json or not 'completed' in request.json:
+        abort(400)
+    todo = {
+        'id': todos[-1]['id'] + 1,
+        'userId': request.json['userId'],
+        'title': request.json['title'],
+        'completed': request.json['completed'],
+    }
+    todos.append(todo)
+    return jsonify({'todo': todo}), 201
+
+#Falta users pero es molt llarg xdd
+
+#PUT
+
 @app.route('/posts/<int:post_id>', methods=['PUT'])
 def update_post(post_id):
     post = [post for post in posts if post['id'] == post_id]
@@ -110,6 +166,8 @@ def update_post(post_id):
     post[0]['title'] = request.json.get('title', post[0]['title'])
     post[0]['body'] = request.json.get('body', post[0]['body'])
     return jsonify({'post': post[0]})
+
+#DELETE
 
 @app.route('/posts/<int:post_id>', methods=['DELETE'])
 def delete_post(post_id):
