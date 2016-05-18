@@ -15,5 +15,5 @@ while True:
     message = sock.recv()
     if message is not None:
         aleatori = random.randint(0, 20)
-    sock.send("Echo: "  + str(aleatori))
-    print "Echo: " + str(aleatori)
+    sock.send("Ets el meu amic numero: "  + str(aleatori))
+    print "hola amic! " + str(aleatori)
